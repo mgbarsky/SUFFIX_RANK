@@ -28,9 +28,11 @@
 //we need each chunk of the pre-SA file to be sorted by final rank in memory
 //so we can have no more than say 1GB/size of (SARecord): 1073741824/16 = 67108864, so we divide this by 8, which means we will have
 //in each chunk 134217728 about 134 MB of data to sort
-#define NUM_THREADS 4
+#ifndef NUM_THREADS
+    #define NUM_THREADS 1
+#endif
 #ifndef WORKING_CHUNK_SIZE
-  #define WORKING_CHUNK_SIZE 16777216 //22369620 //replace chunk size everywhere
+  #define WORKING_CHUNK_SIZE 33554432 //22369620 //replace chunk size everywhere
 #endif
 //#define WORKING_CHUNK_SIZE (16777216/NUM_THREADS) //22369620 //replace chunk size everywhere
 //#define DEFAULT_SA_CHUNK_SIZE 22369620

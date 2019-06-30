@@ -5,7 +5,7 @@ void * Calloc (int num_bytes) {
 	void * result =  calloc (num_bytes, 1);
 	if (result == NULL) {
 		printf ("Could not allocate array of size %d bytes\n", num_bytes);
-		exit (-1);
+		exit (1);
 	}
 	return result;
 }

@@ -1,8 +1,9 @@
 # SUFFIX RANK
 ## Suffix sorting for large inputs
+## Input example
+nohup /usr/bin/time -v ./em_algorithm_parallel_ubuntu.sh ../../../datasets/enwiki/ &
 
-
-Installation instructions for SAScan algorithm:
+##Installation instructions for SAScan algorithm:
 Setup system: <br>
 yum -y install cmake <br>
 yum -y install gcc <br>

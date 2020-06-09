@@ -81,7 +81,7 @@ int move_to_positions (long curr_pos, long prev_pos) {
 int main (int argc, char **argv){
 	char * sa_filename;
 	char line [MAX_LINE];
-    long count = 0;
+    	long count = 0;
 	int started = 0;
 	if (argc<3) {
 		puts ("Run ./test_order <input_directory> <sa_filename>");
@@ -104,7 +104,7 @@ int main (int argc, char **argv){
 	 	if (started) {
 	 		move_to_positions(curr_pos, prev_pos);
 	 		int res = compare_strings_from_files();
-	 		if (res > 0/* && !(prev_pos==2034069 && curr_pos==15253051 && curr_fid==0 && prev_fid==0)*/) {
+	 		if (res > 0) {
 	 			printf ("TEST FAILED: suffix at post %ld is bigger than suffix at post %ld\n",
 	 				prev_pos, curr_pos);
 	 			move_to_positions(curr_pos, prev_pos);
@@ -114,7 +114,7 @@ int main (int argc, char **argv){
 	 	}
 		else started = 1;
 	 	prev_pos = curr_pos;
-        if (count % 1000000 == 0)
+        if (count % 10000000 == 0)
             printf ("Processed %ld positions. Correct so far\n", count);
 	}
 	return 0;

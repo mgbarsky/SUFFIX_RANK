@@ -205,7 +205,7 @@ int count_characters (char *input_directory, char * output_directory) {
 int main (int argc, char **argv){
 	char * input_directory;
 	char * temp_dir;
-
+	printf("Current chunk size is set to %ld bytes\n", (long) WORKING_CHUNK_SIZE);
 	if (argc<3) {
 		puts ("Run ./count_characters <binary_inputs_dir> <temp_dir>");
 		return FAILURE;

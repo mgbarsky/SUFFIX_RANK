@@ -100,8 +100,11 @@ int generate_local_runs (char * rank_dir, char * runs_dir, int total_chunks,
   fclose (currentFP);
 
 	total_records = fread (sa_buffer, sizeof (int), WORKING_CHUNK_SIZE, saFP);
-  if (total_records==0)
-    return EMPTY;
+  	if (total_records==0) {
+		fclose(runsFP);
+		fclose(saFP);
+    		return EMPTY;
+	}
 
 	int start_interval = 0;
 	long previous_rank = current_ranks_buffer[sa_buffer[0]];

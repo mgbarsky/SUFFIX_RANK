@@ -75,6 +75,7 @@ int generate_local_runs (char * rank_dir, char * runs_dir, int total_chunks,
 		sprintf (next_ranks_file_name, "%s/ranks_%d", rank_dir, chunk_id+next_chunk_dist);
 		OpenBinaryFileRead (&nextFP, next_ranks_file_name);
 		fread (next_ranks_buffer, sizeof (long), WORKING_CHUNK_SIZE, nextFP);
+		fclose(nextFP);
 	}
   else {
 		sprintf (next_ranks_file_name, "%s/ranks_%d", rank_dir, chunk_id);

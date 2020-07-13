@@ -62,6 +62,9 @@ int update_local_ranks (char * rank_dir, char * temp_dir, int total_chunks, int 
 	total_resolved = ftell (global_resolved_FP)/sizeof(long);
 	rewind(global_resolved_FP);
 	if (total_resolved == 0) {
+		fclose (current_FP);
+		fclose (next_FP);
+		fclose (global_resolved_FP);
 		return EMPTY;
 	}
 

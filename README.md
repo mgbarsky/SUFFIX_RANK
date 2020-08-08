@@ -27,6 +27,6 @@ cd ../ranks_to_sa
 make
 ./ranks_to_sa_ubuntu.sh ../version1/ranks ../version1/output
 cd ../correctness_test
-./test_corectness.sh ../version1/input ../version1/output
+./test_correctness.sh ../version1/input ../version1/output
 ```
 Note that the correctness test will take a long time.

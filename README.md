@@ -1,9 +1,9 @@
 # SUFFIX RANK
 ## Suffix sorting for large inputs
 
-### Running
+### To Run
 ```
-cd version1
+cd version_1.1
 make
 ./em_algorithm_ubuntu.sh <input folder>
 ```
@@ -13,20 +13,20 @@ On MacOS, run
 ```
 instead.
 
-### Changing Memory Used
+### Change Memory Usage
 
 Modify line 7 of Makefile, replacing 33554432.  Note that the algorithm will use 32 times this amount of RAM, so with the default chunk size of 33554432, it will use 1GB of RAM.  Chunk size must be a power of 2.
 
 Chunk size can also be modified in utils.h, if you do not want to compile using Makefile.
 
-### Testing Correctness
+### Test Correctness
 
 ```
 ./em_algorithm_ubuntu.sh <input folder>
 cd ../ranks_to_sa
 make
-./ranks_to_sa_ubuntu.sh ../version1/ranks ../version1/output
+./ranks_to_sa_ubuntu.sh ../version_1.1/ranks ../version_1.1/output
 cd ../correctness_test
-./test_correctness.sh ../version1/input ../version1/output
+./test_correctness.sh ../version_1.1/input ../version_1.1/output
 ```
-Note that the correctness test will take a long time.
+Note that the correctness test takes a long time to run.

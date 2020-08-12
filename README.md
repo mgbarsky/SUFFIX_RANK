@@ -13,6 +13,8 @@ On MacOS, run
 ```
 instead.
 
+Sample input folder can be downloaded from [here](https://drive.google.com/file/d/1B9muEMI97aF8-Zj_SCxHzA1tMCjtNCbR/view).
+
 ### Change Memory Usage
 
 Modify line 7 of Makefile, replacing 33554432.  Note that the algorithm will use 32 times this amount of RAM, so with the default chunk size of 33554432, it will use 1GB of RAM.  Chunk size must be a power of 2.

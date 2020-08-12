@@ -3,7 +3,7 @@
 
 ### To Run
 ```
-cd version_1.0
+cd version_1.1
 make
 ./em_algorithm_ubuntu.sh <input folder>
 ```

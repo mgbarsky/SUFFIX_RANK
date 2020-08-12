@@ -25,7 +25,7 @@ Chunk size can also be modified in utils.h, if you do not want to compile using 
 
 ```
 ./em_algorithm_ubuntu.sh <input folder>
-cd ../ranks_to_sa_1.0
+cd ../ranks_to_sa_1.1
 make
 ./ranks_to_sa_ubuntu.sh ../version_1.1/ranks ../version_1.1/output
 cd ../correctness_test

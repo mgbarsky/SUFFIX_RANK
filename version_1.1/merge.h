@@ -54,6 +54,6 @@ int insert_into_heap (Manager * manager, int chunk_id, RunRecord *input);
 int get_top_heap_element (Manager * manager, HeapElement * result);
 int init_merge (Manager * manager);
 int merge_runs (Manager * manager);
-int compare_heap_elements (HeapElement *a, HeapElement *b);
+long compare_heap_elements (HeapElement *a, HeapElement *b);
 
 #endif

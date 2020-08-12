@@ -1,7 +1,7 @@
 #include "merge.h"
 
 //we are comparing 2 heap elements by current rank, then by next rank, if equal - by file_id
-int compare_heap_elements (HeapElement *a, HeapElement *b) {
+long compare_heap_elements (HeapElement *a, HeapElement *b) {
 	if (a->current_rank == b->current_rank ) {
 		if (a->next_rank == b->next_rank)
 			return a->chunk_id - b->chunk_id;

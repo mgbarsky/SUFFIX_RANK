@@ -13,6 +13,8 @@ On MacOS, run
 ```
 instead.
 
+Sample input folder can be downloaded from [here](https://drive.google.com/file/d/1B9muEMI97aF8-Zj_SCxHzA1tMCjtNCbR/view).
+
 ### Change Memory Usage
 
 Modify line 7 of Makefile, replacing 33554432.  Note that the algorithm will use 32 times this amount of RAM, so with the default chunk size of 33554432, it will use 1GB of RAM.  Chunk size must be a power of 2.
@@ -23,7 +25,7 @@ Chunk size can also be modified in utils.h, if you do not want to compile using 
 
 ```
 ./em_algorithm_ubuntu.sh <input folder>
-cd ../ranks_to_sa
+cd ../ranks_to_sa_1.0
 make
 ./ranks_to_sa_ubuntu.sh ../version_1.1/ranks ../version_1.1/output
 cd ../correctness_test

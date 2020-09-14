@@ -45,7 +45,7 @@ typedef struct merge_manager {
 int reduce(char* input_dir, char* temp_dir, int total_chunks);
 void setup(Manager * manager);
 void clean_up(Manager * manager);
-int flush_output_buffers (Manager *manager, int chunk_id);
+void flush_output_buffers (Manager *manager, int chunk_id);
 int refill_buffer (Manager * manager, int chunk_id);
 void heap_to_output_last ( Manager *manager, HeapElement *current, OutputElement *result);
 void heap_to_output ( Manager *manager, HeapElement *current, OutputElement *result);

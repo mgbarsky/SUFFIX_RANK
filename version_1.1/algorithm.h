@@ -11,33 +11,11 @@ int update_local_ranks_parallel (char * rank_dir, char * temp_dir, int total_chu
 int update_local_ranks (char * rank_dir, char * temp_dir, int total_chunks, int chunk_id, int h, long * buffer_current, long * buffer_next, int * sa_buffer, long * updated_ranks);
 //int update_ranks_collect_new (char * ranks_dir, char * temp_dir, int h);
 
-typedef struct sa_rank {
-	long rank;
-	int pos;
-} SARecord;
-
-typedef struct global_triple {
-	long currentRank;
-	long nextRank;
-	long newRank;
-} GlobalRecord;
-
 typedef struct run_triple {
 	long currentRank;
 	long nextRank;
 	int count;
 } RunRecord;
-
-typedef struct triple {
-	long currentRank;
-	long nextRank;
-	long value;
-} Triple;
-
-typedef struct file_buffer_pair {
-	int file_id;
-	int start_pos;
-}RunID;
 
 typedef struct rank_pos_pair {
 	long index;

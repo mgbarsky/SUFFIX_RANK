@@ -7,8 +7,6 @@
  * The arguments -
  *   input file name,
  *  temp output directory,
- *	file_id (number from 0 to num_files)
- *	whether consider each line separately
  * It will also add the alphabetically smallest value '0' at the end of the file
  **/
 int main (int argc, char ** argv) {
@@ -16,7 +14,6 @@ int main (int argc, char ** argv) {
 	FILE * outputFP = NULL;
 	char *file_name;
 	char * output_directory;
-	int file_num;
 	unsigned int *buffer;
 	int pos_in_buffer = 0;
 	char line [MAX_LINE];
@@ -26,17 +23,15 @@ int main (int argc, char ** argv) {
 	long binary_size = 0;
 
 
-	if (argc < 4 ) {
-		//./input_to_binary dna/dnaread1.txt input 0 0
-		printf ("To run input_to_binary <text file name> <output directory> <file id>\n");
+	if (argc < 3) {
+		//./input_to_binary dna/dnaread1.txt input 0
+		printf ("To run input_to_binary <text file name> <output directory>\n");
 		return 1;
 	}
 
 	file_name = argv[1];
 
 	output_directory = argv [2];
-
-	file_num = atoi (argv[3]);
 
 	//we collect characters in buffer before flushing it to disk
 	buffer = (unsigned int *) Calloc (DEFAULT_CHAR_BUFFER_SIZE * sizeof(unsigned int));
@@ -64,23 +59,14 @@ int main (int argc, char ** argv) {
 	}
 
 	fclose(inputFP);
-	if (pos_in_buffer > (DEFAULT_CHAR_BUFFER_SIZE - file_num)) {
-		Fwrite (buffer, sizeof(unsigned int), pos_in_buffer, outputFP);
-		pos_in_buffer = 0;
-	}
-
-	//add sentinel - for the end-of-file
-	for (i=0; i<file_num; i++) {
-		buffer[pos_in_buffer++] = 0;
-		binary_size++;
-	}
+	buffer[pos_in_buffer++] = 0;
 
 	Fwrite (buffer, sizeof(unsigned int), pos_in_buffer, outputFP);
 
 	fclose(outputFP);
 	free(buffer);
 
-	printf("Binary size: %ld\n", binary_size);
+	printf("Binary size: %ld\n", binary_size+1);
 
 	return SUCCESS;
 }

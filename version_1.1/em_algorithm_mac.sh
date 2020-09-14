@@ -33,7 +33,7 @@ then
         if [[ -f "$FILE" ]]
         then
             (( TOTALFILES++ ))
-            ./input_to_binary $FILE $BINARY_INPUT_DIR "${TOTALFILES}"
+            ./input_to_binary $FILE $BINARY_INPUT_DIR
             echo "processed file $FILE with exit code $?"
         fi
     done
@@ -161,6 +161,6 @@ done
 
 DUR=$(echo "$(gdate +%s.%N) - $TRUESTART" | bc)
 printf "Total time: %.4f seconds\n\n" $DUR
-#clean temp directory 
+#clean temp directory
 rm -rf ${TEMP_DIR}/*
 exit 0

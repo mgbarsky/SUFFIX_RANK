@@ -53,8 +53,7 @@ int merge_runs (Manager * manager){
 
 			//staying on the last slot of the output buffer - next will cause overflow
 			if(manager->output_buffer_positions[chunk_id] == manager->output_buffer_capacity ) {
-				if(flush_output_buffers(manager, chunk_id)!=SUCCESS)
-					return FAILURE;
+				flush_output_buffers(manager, chunk_id);
 				manager->output_buffer_positions[chunk_id]=0;
 			}
 		}
@@ -72,8 +71,7 @@ int merge_runs (Manager * manager){
 	//flush what remains in output buffer
 	for (chunk_id=0; chunk_id < manager->total_chunks; chunk_id++) {
 		//if(manager->output_buffer_positions[chunk_id] > 0) {
-			if(flush_output_buffers(manager, chunk_id)!=SUCCESS)
-				return FAILURE;
+			flush_output_buffers(manager, chunk_id);
 		//}
 	}
 
@@ -297,7 +295,7 @@ int refill_buffer (Manager * manager, int chunk_id) {
 	return EMPTY;
 }
 
-int flush_output_buffers (Manager *manager, int chunk_id) {
+void flush_output_buffers (Manager *manager, int chunk_id) {
 	char file_name [MAX_PATH_LENGTH];
 	FILE * outputFP;
 
@@ -308,8 +306,6 @@ int flush_output_buffers (Manager *manager, int chunk_id) {
 
 	fclose (outputFP);
 	outputFP = NULL;
-
-	return SUCCESS;
 }
 
 void clean_up(Manager * manager){

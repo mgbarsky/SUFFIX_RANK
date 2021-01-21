@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Output Files 
+*init
+*input_to_binary
+*generate_local_ranks
+*resolve_global_ranks
+*update_local_ranks
+
+# Folders
+*input/
+*ranks/

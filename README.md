@@ -3,7 +3,7 @@
 
 ### To Run
 ```
-cd version_1.1
+cd src
 make
 ./em_algorithm_ubuntu.sh <input folder>
 ```
@@ -25,10 +25,10 @@ Chunk size can also be modified in utils.h, if you do not want to compile using 
 
 ```
 ./em_algorithm_ubuntu.sh <input folder>
-cd ../ranks_to_sa_1.1
+cd ../ranks2sa
 make
-./ranks_to_sa_ubuntu.sh ../version_1.1/ranks ../version_1.1/output
+./ranks_to_sa_ubuntu.sh ../src/ranks ../src/output
 cd ../correctness_test
-./test_correctness.sh ../version_1.1/input ../version_1.1/output
+./test_correctness.sh ../src/input ../src/output
 ```
 Note that the correctness test takes a long time to run.

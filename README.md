@@ -5,13 +5,8 @@
 ```
 cd src
 make
-./em_algorithm_ubuntu.sh <input folder>
+./suffixrank.sh <input folder>
 ```
-On MacOS, run
-```
-./em_algorithm_mac.sh <input folder>
-```
-instead.
 
 Sample input folder can be downloaded from [here](https://drive.google.com/file/d/1B9muEMI97aF8-Zj_SCxHzA1tMCjtNCbR/view).
 
@@ -24,11 +19,7 @@ Chunk size can also be modified in utils.h, if you do not want to compile using 
 ### Test Correctness
 
 ```
-./em_algorithm_ubuntu.sh <input folder>
-cd ../ranks2sa
-make
-./ranks_to_sa_ubuntu.sh ../src/ranks ../src/output
-cd ../correctness_test
+cd correctness_test
 ./test_correctness.sh ../src/input ../src/output
 ```
 Note that the correctness test takes a long time to run.

@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [[ $(uname -s) = Darwin ]]
+then
+    DATE="gdate +%s.%N"
+else
+    DATE="date +%s.%N"
+fi
+
 #constants
 TEMP_DIR=tmp
 BINARY_INPUT_DIR=input
@@ -13,7 +20,7 @@ EMPTY=2
 STATE=$SUCCESS
 CHUNKS=0
 
-TRUESTART=$(date +%s.%N)
+TRUESTART=$($DATE)
 #Part 0. Preprocessing - convering text files to binary with sentinels
 #need directory input to store binary files with sentinels
 if [[ -d $BINARY_INPUT_DIR ]]
@@ -33,7 +40,7 @@ then
         if [[ -f "$FILE" ]]
         then
             (( TOTALFILES++ ))
-            ./input_to_binary $FILE $BINARY_INPUT_DIR
+            ./input_to_binary $FILE $BINARY_INPUT_DIR "${TOTALFILES}"
             echo "processed file $FILE with exit code $?"
         fi
     done
@@ -60,7 +67,7 @@ else
     mkdir ${OUTPUT_DIR}
 fi
 
-START=$(date +%s.%N)
+START=$($DATE)
 #Part 1. Count totals of characters in all input files
 ./init ${BINARY_INPUT_DIR} ${RANK_DIR}
 STATUS=$?
@@ -72,7 +79,7 @@ fi
 
 CHUNKS=$(($(ls -l ${RANK_DIR}/* | wc -l)/2))
 
-DUR=$(echo "$(date +%s.%N) - $START" | bc)
+DUR=$(echo "$($DATE) - $START" | bc)
 printf "Finished inizializing in %.4f, total %d chunks\n" $DUR $CHUNKS
 
 
@@ -94,14 +101,14 @@ MORE_RUNS=1
 while (( $MORE_RUNS == 1 ))
 do
     MORE_RUNS=0;
-    START=$(date +%s.%N)
+    START=$($DATE)
     #clean temp directory for the next iteration
     rm -rf ${TEMP_DIR}/*
 
     #generate sorted runs with counts and local rank pairs grouped by file_id and interval_id
     #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 
-    ./generate_local_ranks ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
+    ./generate_local_ranks_parallel ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
     STATUS=$?
 
     if [[ $STATUS -ne $EMPTY ]]
@@ -113,12 +120,13 @@ do
     then
         exit 1
     fi
-    DUR=$(echo "$(date +%s.%N) - $START" | bc)
+
+    DUR=$(echo "$($DATE) - $START" | bc)
     printf "Generated local ranks for iteration %d in %.4f seconds\n" $H $DUR
     #only if there are ranks to be resolved - continue
     if [[ $MORE_RUNS -eq 1 ]]
     then
-        START=$(date +%s.%N)
+        START=$($DATE)
         #merge local ranks into global ranks - from all the chunks
         ./resolve_global_ranks ${TEMP_DIR} ${TEMP_DIR} $CHUNKS
         STATUS=$?
@@ -128,24 +136,24 @@ do
             exit 1
         fi
 
-        DUR=$(echo "$(date +%s.%N) - $START" | bc)
+        DUR=$(echo "$($DATE) - $START" | bc)
         printf "Resolved global ranks for iteration %d in %.4f seconds\n" $H $DUR
 
         #at least something was resolved
         if [[ $STATUS -ne $EMPTY ]]
         then
-          START=$(date +%s.%N)
             #update local ranks with resolved global ranks
+            START=$($DATE)
             #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./update_local_ranks ${RANK_DIR} ${TEMP_DIR} $H
-            ./update_local_ranks ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
+            ./update_local_ranks_parallel ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
             STATUS=$?
 
             if [[ $STATUS -eq $FAILURE ]]
             then
                 exit 1
             fi
-          DUR=$(echo "$(date +%s.%N) - $START" | bc)
-          printf "Updated local ranks for iteration %d in %.4f seconds\n" $H $DUR
+            DUR=$(echo "$($DATE) - $START" | bc)
+            printf "Updated local ranks for iteration %d in %.4f seconds\n" $H $DUR
         fi
     fi
 
@@ -156,8 +164,39 @@ do
     (( H++ ))
 done
 
-DUR=$(echo "$(date +%s.%N) - $TRUESTART" | bc)
-printf "Total time: %.4f seconds\n\n" $DUR
-#clean temp directory
+
+#clean temp directory 
 rm -rf ${TEMP_DIR}/*
+
+START=$($DATE)
+./create_pairs_parallel ${RANK_DIR} ${TEMP_DIR} $CHUNKS
+STATUS=$?
+
+if [[ $STATUS -eq $FAILURE ]]
+then
+    exit 1
+fi
+echo "finished creating pairs"
+DUR=$(echo "$($DATE) - $START" | bc)
+printf "Created in %.4f seconds\n" $DUR
+
+START=$($DATE)
+
+
+./invert_parallel ${TEMP_DIR} ${OUTPUT_DIR} $CHUNKS
+STATUS=$?
+
+if [[ $STATUS -eq $FAILURE ]]
+then
+    exit 1
+fi
+DUR=$(echo "$($DATE) - $START" | bc)
+printf "Inverted in %.4f seconds\n" $DUR
+
+DUR=$(echo "$($DATE) - $TRUESTART" | bc)
+printf "Total time: %.4f seconds\n" $DUR
+
+#clean temp directory 
+rm -rf ${TEMP_DIR}/*
+
 exit 0

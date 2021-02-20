@@ -16,7 +16,7 @@ CFLAGS += -DWORKING_CHUNK_SIZE=\$(WORKING_CHUNK_SIZE)
 
 default: all
 
-all: input_to_binary init  resolve_global_ranks generate_local_ranks_parallel update_local_ranks_parallel    
+all: input_to_binary init  resolve_global_ranks generate_local_ranks_parallel update_local_ranks_parallel create_pairs_parallel invert_parallel
 
 input_to_binary: input_to_binary.c utils.c
 	$(CC) $(CFLAGS) input_to_binary.c utils.c -o input_to_binary
@@ -33,5 +33,11 @@ resolve_global_ranks: merge_runs.c utils.c
 update_local_ranks_parallel: update_local_ranks_parallel.c utils.c
 	$(CC) -fopenmp $(CFLAGS) update_local_ranks_parallel.c utils.c -o update_local_ranks_parallel
 
+create_pairs_parallel: create_pairs_parallel.c utils.c
+	$(CC) $(CFLAGS) create_pairs_parallel.c utils.c -o create_pairs_parallel
+
+invert_parallel: invert_parallel.c utils.c
+	$(CC) $(CFLAGS) invert_parallel.c utils.c -o invert_parallel
+
 clean:
-	rm input_to_binary init generate_local_ranks_parallel resolve_global_ranks update_local_ranks_parallel   
+	rm input_to_binary init generate_local_ranks_parallel resolve_global_ranks update_local_ranks_parallel create_pairs_parallel invert_parallel

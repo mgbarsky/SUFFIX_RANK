@@ -9,7 +9,7 @@ CFLAGS += -DWORKING_CHUNK_SIZE=\$(WORKING_CHUNK_SIZE)
 
 default: all
 
-all: input_to_binary init generate_local_ranks update_local_ranks resolve_global_ranks create_pairs invert
+all: input_to_binary init refine update merge create_pairs invert
 
 input_to_binary: input_to_binary.c utils.c
 	$(CC) $(CFLAGS) input_to_binary.c utils.c -o input_to_binary
@@ -17,14 +17,14 @@ input_to_binary: input_to_binary.c utils.c
 init: init_hash_table.c init.c utils.c
 	$(CC) $(CFLAGS) init_hash_table.c init.c utils.c -o init
 
-generate_local_ranks: generate_local_ranks.c utils.c
-	$(CC) $(CFLAGS) generate_local_ranks.c utils.c -o generate_local_ranks
+refine: refine.c utils.c
+	$(CC) $(CFLAGS) refine.c utils.c -o refine
 
-resolve_global_ranks: merge_runs.c utils.c
-	$(CC) $(CFLAGS) merge_runs.c utils.c -o resolve_global_ranks
+merge: merge.c utils.c
+	$(CC) $(CFLAGS) merge.c utils.c -o merge
 
-update_local_ranks: update_local_ranks.c utils.c
-	$(CC) $(CFLAGS) update_local_ranks.c utils.c -o update_local_ranks
+update: update.c utils.c
+	$(CC) $(CFLAGS) update.c utils.c -o update
 
 create_pairs: create_pairs.c utils.c
 	$(CC) $(CFLAGS) create_pairs.c utils.c -o create_pairs
@@ -33,4 +33,4 @@ invert: invert.c utils.c
 	$(CC) $(CFLAGS) invert.c utils.c -o invert
 
 clean:
-	rm input_to_binary init generate_local_ranks resolve_global_ranks update_local_ranks create_pairs invert
+	rm input_to_binary init refine merge update create_pairs invert

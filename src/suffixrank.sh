@@ -109,7 +109,7 @@ do
     #generate sorted runs with counts and local rank pairs grouped by file_id and interval_id
     #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 
-    ./generate_local_ranks ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
+    ./refine ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
     STATUS=$?
 
     if [[ $STATUS -ne $EMPTY ]]
@@ -122,13 +122,13 @@ do
         exit 1
     fi
     DUR=$(echo "$($DATE) - $START" | bc)
-    printf "Generated local ranks for iteration %d in %.4f seconds\n" $H $DUR
+    printf "Refined ranks for iteration %d in %.4f seconds\n" $H $DUR
     #only if there are ranks to be resolved - continue
     if [[ $MORE_RUNS -eq 1 ]]
     then
         START=$($DATE)
         #merge local ranks into global ranks - from all the chunks
-        ./resolve_global_ranks ${TEMP_DIR} ${TEMP_DIR} $CHUNKS
+        ./merge ${TEMP_DIR} ${TEMP_DIR} $CHUNKS
         STATUS=$?
 
         if [[ $STATUS -eq $FAILURE ]]
@@ -144,8 +144,8 @@ do
         then
           START=$($DATE)
             #update local ranks with resolved global ranks
-            #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./update_local_ranks ${RANK_DIR} ${TEMP_DIR} $H
-            ./update_local_ranks ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
+            #valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./update ${RANK_DIR} ${TEMP_DIR} $H
+            ./update ${RANK_DIR} ${TEMP_DIR} $CHUNKS $H
             STATUS=$?
 
             if [[ $STATUS -eq $FAILURE ]]
@@ -153,7 +153,7 @@ do
                 exit 1
             fi
           DUR=$(echo "$($DATE) - $START" | bc)
-          printf "Updated local ranks for iteration %d in %.4f seconds\n" $H $DUR
+          printf "Updated ranks for iteration %d in %.4f seconds\n" $H $DUR
         fi
     fi
 
@@ -175,7 +175,6 @@ if [[ $STATUS -eq $FAILURE ]]
 then
     exit 1
 fi
-echo "finished creating pairs"
 DUR=$(echo "$($DATE) - $START" | bc)
 printf "Created in %.4f seconds\n" $DUR
 
